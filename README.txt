@@ -7,7 +7,7 @@ There are numerous websites for custom PC parts and it becomes too difficult to 
 It becomes much easier to compare the prices of different online stores when it is automatically tabulated for you.
 
 How?
-Using beautifulsoup I webscrape reputable websites and export it to excel using pandas library.
+Using Python's BeautifulSoup library I webscrape reputable websites and export it to excel using the Pandas library.
 
 
 === WEBSITES SEARCHED ===
@@ -19,6 +19,12 @@ EaseTec
 Download all the files
 Open the terminal in the same directory and enter the following command: python main.py Your Search
 An excel workbook will be created with your results in the same directory as the download
+
+
+=== PREREQS ===
+Python must be installed on your device.
+BeautifulSoup and Pandas library must be installed on the same device.
+
 
 EXAMPLE:
 Command: python main.py Power Supply
