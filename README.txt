@@ -13,7 +13,7 @@ EaseTec
 === HOW TO RUN ===
 Download all the files
 Open your terminal and enter the following command: python main.py Your Search
-An excel workbook will be created containing sheets of your result in the same directory as the download
+An excel workbook will be created with your results in the same directory as the download
 
 EXAMPLE:
 Command: python main.py Gtx 1660 Super
