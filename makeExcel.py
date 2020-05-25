@@ -1,61 +1,41 @@
-import xlsxwriter
+import pandas as pd
 
 # Purpose of this file:
-# For each website, create a sheet and export results in a tabular form to their respective sheets
+# 1) Create a sheet for each website containing product price, name and link
+# 2) Create a fully compiled sheet in ascending order of price for comparison
 
 class MakeWorkbook:
 	filename = ""
-	workbook = None
-	headers = ["Name", "Price", "Link"]
 	easeTec = None
-	indusTech = None
+	indusTec = None
 
-	# Create a workbook with the name corresponding to the search joined with '_'
-	def __init__(self, search, easeTec, indusTech):
-		self.workbook = xlsxwriter.Workbook('_'.join(search) + ".xlsx")
+
+	def __init__(self, search, easeTec, indusTect):
+		self.filename = '_'.join(search) + ".xlsx"
 		self.easeTec = easeTec
-		self.indusTech = indusTech
-		self.easeTecExcel()
-		self.indusTechExcel()
-		#self.compileAll()
-		self.workbook.close()
-	
-	# Make an excel sheet for EaseTec in the same workbook
-	def easeTecExcel(self):
-		worksheetEaseTec = self.workbook.add_worksheet('EaseTec')
+		self.indusTec = indusTect
 
-		# Write header
-		for i, head in enumerate(self.headers):
-			worksheetEaseTec.write(0, i, head)
+		# Function to make the pandas dataframe and export to excel
+		self.makeDataFrame()
 
-		row = 1
-		col = 0
-		# Write each line
-		for i in range(len(self.easeTec.name)):
-			worksheetEaseTec.write(row, col, self.easeTec.name[i])
-			worksheetEaseTec.write(row, col+1, self.easeTec.price[i])
-			worksheetEaseTec.write(row, col+2, self.easeTec.link[i])
+	def makeDataFrame(self):
+		# Convert to pandas dataframe
+		easeTecData = pd.DataFrame({'Website': ['EaseTec'] * len(self.easeTec.name), 'Name': self.easeTec.name, 'Price': self.easeTec.price, 'Link': self.easeTec.link})
+		indusTechData = pd.DataFrame({'Website': ['IndusTech'] * len(self.indusTec.name), 'Name': self.indusTec.name, 'Price': self.indusTec.price, 'Link': self.indusTec.link})
+		allSitesData = pd.concat([easeTecData, indusTechData])
+		
+		# Sort in ascending order of price
+		easeTecData.sort_values(by = ['Price'], inplace = True)
+		indusTechData.sort_values(by = ['Price'], inplace = True)
+		allSitesData.sort_values(by = ['Price'], inplace = True)
 
-			row = row + 1
+		# Sheet labels
+		sheets = {'All Sites': allSitesData, 'EaseTec': easeTecData, 'IndusTech': indusTechData}
 
-	# Make an excel sheet for IndusTech in the same workbook
-	def indusTechExcel(self):
-		worksheetIndusTech = self.workbook.add_worksheet('IndusTech')
+		# Write to sheet
+		writer = pd.ExcelWriter(self.filename, engine = 'xlsxwriter') # pylint: disable=abstract-class-instantiated
 
-		# Write header
-		for i, head in enumerate(self.headers):
-			worksheetIndusTech.write(0, i, head)
+		for sheetName in sheets.keys():
+			sheets[sheetName].to_excel(writer, sheet_name = sheetName, index = False)
 
-		row = 1
-		col = 0
-		# Write each line
-		for i in range(len(self.indusTech.name)):
-			worksheetIndusTech.write(row, col, self.indusTech.name[i])
-			worksheetIndusTech.write(row, col+1, self.indusTech.price[i])
-			worksheetIndusTech.write(row, col+2, self.indusTech.link[i])
-
-			row = row + 1
-
-	# Make an excel sheet for compiling all the products found in ascending price order
-	# def compileAll(self):
-	# 	worksheetAll = self.workbook.add_worksheet('All Sites')
+		writer.save()
