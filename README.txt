@@ -1,9 +1,10 @@
 === ABOUT ===
-Based on your search input, I search reputable websites and output the name and prices to an excel file ordered from low to high prices.
+Based on your search input, I search reputable websites and find the cheapest results from each site.
+The results are exported to an excel sheet for easy comparison from low to high prices.
 
 Why?
-There are numerous websites for custom parts and it becomes too difficult to search for the best price.
-It becomes much easier to compare the prices of two different online stores when it is automatically tabulated for you.
+There are numerous websites for custom PC parts and it becomes too difficult to search for the best price.
+It becomes much easier to compare the prices of different online stores when it is automatically tabulated for you.
 
 How?
 Using beautifulsoup I webscrape reputable websites and export it to excel using pandas library.
@@ -16,16 +17,15 @@ EaseTec
 
 === HOW TO RUN ===
 Download all the files
-Open your terminal and enter the following command: python main.py Your Search
+Open the terminal in the same directory and enter the following command: python main.py Your Search
 An excel workbook will be created with your results in the same directory as the download
 
 EXAMPLE:
-Command: python main.py Gtx 1660 Super
-Open file: Gtx_1660_Super.xlsx
+Command: python main.py Power Supply
+Open file: Power_Supply.xlsx
 
 
 === FUTURE UPDATES ===
-Another sheet with a list of all the products from all the sites ordered from low to high prices
 More websites such as Czone and PakDukaan
 
 
