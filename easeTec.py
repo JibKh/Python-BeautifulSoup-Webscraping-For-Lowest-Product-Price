@@ -35,7 +35,7 @@ class EaseTec:
 
 		for product in products:
 			self.link.append(product.findAll('a', {'class': 'woocommerce-LoopProduct-link woocommerce-loop-product__link'})[0]['href']) # Product link scraped
-			self.price.append(product.findAll('span', {'class': 'woocommerce-Price-amount amount'})[0].text.strip()) # Product price scraped
+			self.price.append(float(product.findAll('span', {'class': 'woocommerce-Price-amount amount'})[0].text.strip()[2:].strip().replace(',', ''))) # Product price scraped
 			self.name.append(product.findAll('h2', {'class': 'woocommerce-loop-product__title'})[0].text.strip()) # Product Name scraped
 			
 

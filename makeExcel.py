@@ -17,9 +17,10 @@ class MakeWorkbook:
 		self.indusTech = indusTech
 		self.easeTecExcel()
 		self.indusTechExcel()
+		#self.compileAll()
 		self.workbook.close()
 	
-	# Make an excel sheet for IndusTech in the same workbook
+	# Make an excel sheet for EaseTec in the same workbook
 	def easeTecExcel(self):
 		worksheetEaseTec = self.workbook.add_worksheet('EaseTec')
 
@@ -54,3 +55,7 @@ class MakeWorkbook:
 			worksheetIndusTech.write(row, col+2, self.indusTech.link[i])
 
 			row = row + 1
+
+	# Make an excel sheet for compiling all the products found in ascending price order
+	# def compileAll(self):
+	# 	worksheetAll = self.workbook.add_worksheet('All Sites')

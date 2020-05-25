@@ -29,4 +29,13 @@ print('Done!\n')
 
 
 # ====== EXCEL/CSV ======
+print('Making Excel Workbook...')
 MakeWorkbook(search, easeTec, indusTech) # Export results to an excel sheet
+print('Done! \n\nOpen:', '_'.join(search) + '.xlsx')
+
+if len(easeTec.name) == 0:
+	print('\nEaseTec found no results..\nTry something else?')
+
+if len(indusTech.name) == 0:
+	print('\n\nIndusTech found no results..\nTry something else?')
+

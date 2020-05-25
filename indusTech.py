@@ -40,7 +40,7 @@ class IndusTech:
 		# Save them in their respective variables
 		for i in range(len(indusTechName)):
 			self.name.append(indusTechName[i].text.strip())
-			self.price.append(indusTechPrice[i].text.strip())
+			self.price.append(float(indusTechPrice[i].text.strip().strip().replace(',', '').split('Rs.')[1]))
 			self.link.append("industech.pk" + indusTechLink[i]['href'])
 
 
