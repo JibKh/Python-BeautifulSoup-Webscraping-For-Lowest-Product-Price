@@ -12,7 +12,9 @@ Using Python's BeautifulSoup library I webscrape reputable websites and export i
 
 ### Websites searched ###  
 IndusTech  
-EaseTec
+EaseTec  
+Computer Zone (CZone)  
+Pak Dukaan  
 
 
 ### How to run ###  
