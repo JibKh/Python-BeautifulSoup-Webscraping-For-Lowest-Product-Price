@@ -1,14 +1,15 @@
 from bs4 import BeautifulSoup as soup
 from urllib.request import Request, urlopen
 import requests
+import re
 
 # Purpose of this file:
 # 1) Create a link using the search arguments. The link must be for prices low to high.
 # 2) Using beautifulsoup, scrape the page and retrieve the product name, price and link to the product page.
 # 3) Store the results in their respective variables.
 
-class IndusTech:
-	website = 'IndusTech'
+class PakDukaan:
+	website = 'Pak Dukaan'
 	search = ""
 	url = ""
 	name = []
@@ -24,8 +25,8 @@ class IndusTech:
 
 	# Generates a link to be opened
 	def generateLink(self):
-		search = "%20".join(self.search)
-		self.url = "https://www.industech.pk/search/?kw=" + search
+		search = "+".join(self.search)
+		self.url = "https://pakdukaan.com/?orderby=price&paged=1&s=" + search + "&post_type=product"
 
 	# Open the link and use beautifulsoup to scrape it
 	def generateResult(self):
@@ -33,15 +34,20 @@ class IndusTech:
 		webpage = urlopen(res).read()
 
 		# Get page html
-		indusSoup = soup(webpage, "lxml")
-		
-		# Find relevant parts
-		indusTechName = indusSoup.findAll('h4', {'name': 'list-productname'}) # Product Name scraped
-		indusTechPrice = indusSoup.findAll('div', {'name': 'list-price'}) # Product price scraped
-		indusTechLink = indusSoup.findAll('a', {'name': 'list-image'}) # Product link scraped
+		pakSoup = soup(webpage, "lxml")
 
+		# Find relevant parts
+		pakStuff = pakSoup.findAll('div', {'class': 'product-name'})
+		pakPrice = pakSoup.findAll('div', {'class': 'price-box-inner'})
+		pakStuff = pakStuff[::2]
+		pakPrice = pakPrice[::2]
+		
 		# Save them in their respective variables
-		for i in range(len(indusTechName)):
-			self.name.append(indusTechName[i].text.strip())
-			self.price.append(float(indusTechPrice[i].text.strip().strip().replace(',', '').split('Rs.')[1]))
-			self.link.append("www.industech.pk" + indusTechLink[i]['href'])
+		for i in range(len(pakStuff)):
+			nameAndLink = pakStuff[i].findAll('a')[0]
+			self.name.append(nameAndLink.text.strip())
+			self.link.append(nameAndLink['href'])
+			try:
+				self.price.append(float(pakPrice[i].ins.span.text.strip()[1:].replace(',', '').split('.')[0]))
+			except:
+				self.price.append(float(pakPrice[i].span.text.strip()[1:].replace(',', '').split('.')[0]))

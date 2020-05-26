@@ -1,6 +1,8 @@
 import sys
 from Websites.easeTec import EaseTec
 from Websites.indusTech import IndusTech
+from Websites.czone import Czone
+from Websites.pakDukaan import PakDukaan
 from makeExcel import MakeWorkbook
 
 # Purpose of this file:
@@ -15,25 +17,17 @@ if len(sys.argv[1]) <= 1:
 # Search argument list
 search = sys.argv[1:]
 
-# ====== IndusTech ======
-print('Searching IndusTech...')
-indusTech = IndusTech(search) # Class created which contains the results of the search
-print('Done!')
+# Create a list of all the websites to search
+websites = [IndusTech(search), EaseTec(search), Czone(search), PakDukaan(search)]
 
-
-# ====== EaseTec ======
-print('Searching EaseTec...')
-easeTec = EaseTec(search) # Class created which contains the results of the search
-print('Done!')
-
-
-# ====== EXCEL/CSV ======
+# Create an Excel Workbook
 print('\nMaking Excel Workbook...')
-MakeWorkbook(search, easeTec, indusTech)
-print('Done! \n\nOpen:', '_'.join(search) + '.xlsx')
+MakeWorkbook(search, websites)
+print('Done! \n\nOpen:', '_'.join(search) + '.xlsx\n')
 
-if len(easeTec.name) == 0:
-	print('EaseTec found no results..\nTry something else?')
-
-if len(indusTech.name) == 0:
-	print('\nIndusTech found no results..\nTry something else?')
+# Print number of results for each page
+for site in websites:
+	if len(site.name) == 0:
+		print(site.website, 'return no results... Try something else?')
+	else:
+		print(site.website, 'found', len(site.name), 'results')

@@ -6,36 +6,39 @@ import pandas as pd
 
 class MakeWorkbook:
 	filename = ""
-	easeTec = None
-	indusTec = None
+	websites = None
 
 
-	def __init__(self, search, easeTec, indusTect):
+	def __init__(self, search, websites):
 		self.filename = '_'.join(search) + ".xlsx"
-		self.easeTec = easeTec
-		self.indusTec = indusTect
+		self.websites = websites
 
 		# Function to make the pandas dataframe and export to excel
 		self.makeDataFrame()
 
 	def makeDataFrame(self):
+		dataFrames = [None]
+		sheetNames = ['All Sites']
+
 		# Convert to pandas dataframe
-		easeTecData = pd.DataFrame({'Website': ['EaseTec'] * len(self.easeTec.name), 'Name': self.easeTec.name, 'Price': self.easeTec.price, 'Link': self.easeTec.link})
-		indusTechData = pd.DataFrame({'Website': ['IndusTech'] * len(self.indusTec.name), 'Name': self.indusTec.name, 'Price': self.indusTec.price, 'Link': self.indusTec.link})
-		allSitesData = pd.concat([easeTecData, indusTechData])
+		for site in self.websites:
+			siteData = pd.DataFrame({'Website': [site.website] * len(site.name), 'Name': site.name, 'Price': site.price, 'Link': site.link})
+			siteData.sort_values(by = ['Price'], inplace = True)
+			dataFrames.append(siteData)
+			sheetNames.append(site.website)
+		
+		# Concat all data to a single table
+		allSitesData = pd.concat(dataFrames)
 		
 		# Sort in ascending order of price
-		easeTecData.sort_values(by = ['Price'], inplace = True)
-		indusTechData.sort_values(by = ['Price'], inplace = True)
 		allSitesData.sort_values(by = ['Price'], inplace = True)
 
-		# Sheet labels
-		sheets = {'All Sites': allSitesData, 'EaseTec': easeTecData, 'IndusTech': indusTechData}
+		dataFrames[0] = allSitesData
 
 		# Write to sheet
 		writer = pd.ExcelWriter(self.filename, engine = 'xlsxwriter') # pylint: disable=abstract-class-instantiated
 
-		for sheetName in sheets.keys():
-			sheets[sheetName].to_excel(writer, sheet_name = sheetName, index = False)
+		for i in range(len(sheetNames)):
+			dataFrames[i].to_excel(writer, sheet_name = sheetNames[i], index = False)
 
 		writer.save()
