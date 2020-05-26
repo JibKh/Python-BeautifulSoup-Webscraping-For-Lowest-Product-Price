@@ -34,7 +34,8 @@ Open file: Power_Supply.xlsx
 
 
 ### Future Updates ###  
-More websites such as Czone and PakDukaan  
+More websites  
+Out of stock indicator
 
 
 ### Limitations ###  
