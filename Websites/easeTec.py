@@ -33,7 +33,7 @@ class EaseTec:
 		webpage = urlopen(res).read()
 
 		# Get page html
-		easeSoup = soup(webpage, "lxml")
+		easeSoup = soup(webpage, "html5lib")
 
 		# Find relevant parts
 		products = easeSoup.findAll('li', {'class': 'product'}) # Contains a list of all the products

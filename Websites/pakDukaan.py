@@ -34,7 +34,7 @@ class PakDukaan:
 		webpage = urlopen(res).read()
 
 		# Get page html
-		pakSoup = soup(webpage, "lxml")
+		pakSoup = soup(webpage, "html5lib")
 
 		# Find relevant parts
 		pakStuff = pakSoup.findAll('div', {'class': 'product-name'})

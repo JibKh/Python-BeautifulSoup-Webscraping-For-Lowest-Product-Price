@@ -33,7 +33,7 @@ class IndusTech:
 		webpage = urlopen(res).read()
 
 		# Get page html
-		indusSoup = soup(webpage, "lxml")
+		indusSoup = soup(webpage, "html5lib")
 		
 		# Find relevant parts
 		indusTechName = indusSoup.findAll('h4', {'name': 'list-productname'}) # Product Name scraped

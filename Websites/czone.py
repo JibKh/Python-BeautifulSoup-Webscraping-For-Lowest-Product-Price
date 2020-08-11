@@ -33,7 +33,7 @@ class Czone:
 		webpage = urlopen(res).read()
 
 		# Get page html
-		czoneSoup = soup(webpage, "lxml")
+		czoneSoup = soup(webpage, "html5lib")
 
 		# Find relevant parts
 		czoneStuff = czoneSoup.findAll('div', {'class': 'product'})
